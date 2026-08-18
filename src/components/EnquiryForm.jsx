@@ -27,6 +27,7 @@ export default function EnquiryForm({ submitFn, defaultInterest = "", tone = "da
   const [values, setValues] = useState({ ...initial, interestedIn: defaultInterest });
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState("idle");
+  const [whatsappLink, setWhatsappLink] = useState("");
 
   const light = tone === "light";
   const fieldClass = `w-full rounded-xl border px-4 py-3 text-sm outline-none transition-colors ${
