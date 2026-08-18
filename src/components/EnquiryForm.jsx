@@ -47,7 +47,14 @@ export default function EnquiryForm({ submitFn, defaultInterest = "", tone = "da
 
     setStatus("loading");
     try {
-      await send({ data: { ...values, name: values.name.trim(), email: values.email.trim() } });
+      const result = await send({
+        data: { ...values, name: values.name.trim(), email: values.email.trim() },
+      });
+      setWhatsappLink(
+        result?.whatsappText
+          ? `https://wa.me/918248588520?text=${encodeURIComponent(result.whatsappText)}`
+          : "",
+      );
       setStatus("success");
       setValues({ ...initial, interestedIn: defaultInterest });
     } catch {
