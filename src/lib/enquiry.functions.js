@@ -14,14 +14,48 @@ const enquirySchema = z.object({
 });
 
 export const submitEnquiry = createServerFn({ method: "POST" })
-  .validator((data) => enquirySchema.parse(data))
+  .inputValidator((data) => enquirySchema.parse(data))
   .handler(async ({ data }) => {
-    // Enquiry is validated server-side. Connect a database here to persist it
-    // with fields: name, phone, email, interestedIn, userType, message,
-    // status ("New" | "Contacted" | "Converted" | "Closed") and createdAt.
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { sendEnquiryEmail, formatEnquiryText } = await import("./notify.server");
+
+    const { data: inserted, error } = await supabaseAdmin
+      .from("enquiries")
+      .insert({
+        name: data.name,
+        phone: data.phone,
+        email: data.email,
+        interested_in: data.interestedIn,
+        user_type: data.userType,
+        message: data.message ?? "",
+      })
+      .select("id")
+      .single();
+
+    if (error) {
+      console.error("Failed to store enquiry", error);
+      throw new Error("Could not save your enquiry. Please try again.");
+    }
+
+    let emailSent = false;
+    let notifyError = null;
+    try {
+      await sendEnquiryEmail(data);
+      emailSent = true;
+    } catch (mailError) {
+      notifyError = mailError instanceof Error ? mailError.message : "Unknown email error";
+      console.error("Enquiry email failed", notifyError);
+    }
+
+    await supabaseAdmin
+      .from("enquiries")
+      .update({ email_sent: emailSent, notify_error: notifyError })
+      .eq("id", inserted.id);
+
     return {
       ok: true,
-      receivedAt: new Date().toISOString(),
-      reference: data.interestedIn,
+      id: inserted.id,
+      emailSent,
+      whatsappText: `New enquiry from the Nexbyta website\n\n${formatEnquiryText(data)}`,
     };
   });

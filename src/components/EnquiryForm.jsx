@@ -27,6 +27,7 @@ export default function EnquiryForm({ submitFn, defaultInterest = "", tone = "da
   const [values, setValues] = useState({ ...initial, interestedIn: defaultInterest });
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState("idle");
+  const [whatsappLink, setWhatsappLink] = useState("");
 
   const light = tone === "light";
   const fieldClass = `w-full rounded-xl border px-4 py-3 text-sm outline-none transition-colors ${
@@ -46,7 +47,14 @@ export default function EnquiryForm({ submitFn, defaultInterest = "", tone = "da
 
     setStatus("loading");
     try {
-      await send({ data: { ...values, name: values.name.trim(), email: values.email.trim() } });
+      const result = await send({
+        data: { ...values, name: values.name.trim(), email: values.email.trim() },
+      });
+      setWhatsappLink(
+        result?.whatsappText
+          ? `https://wa.me/918248588520?text=${encodeURIComponent(result.whatsappText)}`
+          : "",
+      );
       setStatus("success");
       setValues({ ...initial, interestedIn: defaultInterest });
     } catch {
@@ -67,9 +75,16 @@ export default function EnquiryForm({ submitFn, defaultInterest = "", tone = "da
         <p className={`text-sm ${light ? "text-ink/70" : "text-muted-foreground"}`}>
           Our team will contact you shortly with the details you asked for.
         </p>
-        <Button as="button" type="button" variant={light ? "light" : "outline"} onClick={() => setStatus("idle")}>
-          Submit another enquiry
-        </Button>
+        <div className="flex flex-wrap gap-3">
+          {whatsappLink && (
+            <Button as="a" href={whatsappLink} target="_blank" rel="noreferrer noopener" variant="accent">
+              Also send it on WhatsApp
+            </Button>
+          )}
+          <Button as="button" type="button" variant={light ? "light" : "outline"} onClick={() => setStatus("idle")}>
+            Submit another enquiry
+          </Button>
+        </div>
       </div>
     );
   }
