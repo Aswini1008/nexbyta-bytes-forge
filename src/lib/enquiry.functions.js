@@ -14,7 +14,7 @@ const enquirySchema = z.object({
 });
 
 export const submitEnquiry = createServerFn({ method: "POST" })
-  .inputValidator((data) => enquirySchema.parse(data))
+  .validator((data) => enquirySchema.parse(data))
   .handler(async ({ data }) => {
     // Enquiry is validated server-side. Connect a database here to persist it
     // with fields: name, phone, email, interestedIn, userType, message,
