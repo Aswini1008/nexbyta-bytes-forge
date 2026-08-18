@@ -5,12 +5,10 @@ import { submitEnquiry } from "../lib/enquiry.functions";
 import { company, interestOptions } from "../data/site";
 
 export const Route = createFileRoute("/enquiry")({
-  validateSearch: (search) => ({
-    interest:
-      typeof search.interest === "string" && interestOptions.includes(search.interest)
-        ? search.interest
-        : "",
-  }),
+  validateSearch: (search) =>
+    typeof search.interest === "string" && interestOptions.includes(search.interest)
+      ? { interest: search.interest }
+      : {},
   head: () => ({
     meta: [
       { title: "Enquiry & Registration | Nexbyta Technologies" },
