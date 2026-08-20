@@ -23,11 +23,11 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-colors duration-300 ${
-        scrolled ? "border-b border-border bg-background/80 backdrop-blur-xl" : "bg-transparent"
+      className={`sticky top-0 z-50 border-b bg-surface-light/90 backdrop-blur-md transition-colors duration-300 ${
+        scrolled ? "border-border shadow-[0_1px_2px_rgba(15,23,42,0.04)]" : "border-transparent"
       }`}
     >
-      <nav className="mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-4 sm:px-8" aria-label="Main">
+      <nav className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-5 py-3.5 sm:px-8" aria-label="Main">
         <Brand />
 
         <ul className="hidden items-center gap-1 lg:flex">
@@ -36,7 +36,7 @@ export default function Navbar() {
               <Link
                 to={link.to}
                 activeOptions={{ exact: link.to === "/" }}
-                activeProps={{ className: "text-cyan" }}
+                activeProps={{ className: "text-primary" }}
                 className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
               >
                 {link.label}
@@ -44,6 +44,7 @@ export default function Navbar() {
             </li>
           ))}
         </ul>
+
 
         <div className="hidden lg:block">
           <Button to="/enquiry" variant="accent">

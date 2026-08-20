@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 
-export default function FAQAccordion({ items, tone = "dark" }) {
+export default function FAQAccordion({ items }) {
   const [openIndex, setOpenIndex] = useState(0);
-  const border = tone === "light" ? "border-ink/10" : "border-border";
-  const body = tone === "light" ? "text-ink/70" : "text-muted-foreground";
 
   return (
-    <div className={`divide-y rounded-2xl border ${border} divide-current/10`}>
+    <div className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-surface-light shadow-[var(--shadow-card)]">
       {items.map((item, index) => {
         const open = openIndex === index;
         return (
@@ -17,16 +15,22 @@ export default function FAQAccordion({ items, tone = "dark" }) {
                 type="button"
                 onClick={() => setOpenIndex(open ? -1 : index)}
                 aria-expanded={open}
-                className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-sm font-medium"
+                className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-sm font-semibold transition-colors hover:text-primary"
               >
                 {item.q}
                 <ChevronDown
-                  className={`size-4 shrink-0 text-cyan transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+                  className={`size-4 shrink-0 text-primary transition-transform duration-200 ${open ? "rotate-180" : ""}`}
                   aria-hidden="true"
                 />
               </button>
             </h3>
-            {open && <p className={`px-5 pb-5 text-sm leading-relaxed ${body}`}>{item.a}</p>}
+            <div
+              className={`grid transition-[grid-template-rows] duration-200 ease-out ${open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
+            >
+              <div className="overflow-hidden">
+                <p className="px-5 pb-5 text-sm leading-relaxed text-muted-foreground">{item.a}</p>
+              </div>
+            </div>
           </div>
         );
       })}
