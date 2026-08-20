@@ -1,53 +1,59 @@
-const snippets = [
-  { code: "const skills = build(fundamentals);", delay: "0ms" },
-  { code: "app.use('/api', routes);", delay: "120ms" },
-  { code: "export default function App() {}", delay: "240ms" },
+import { GraduationCap, Code2, Rocket } from "lucide-react";
+
+const stats = [
+  { label: "Training tracks", value: "Java • Python • C/C++ • JS • Full-Stack" },
+  { label: "Build stack", value: "React • Node.js • Express • MongoDB" },
+];
+
+const pillars = [
+  { icon: GraduationCap, title: "Technology Training", copy: "Structured, practical learning paths." },
+  { icon: Code2, title: "Digital Solutions", copy: "Websites, web apps and custom software." },
+  { icon: Rocket, title: "Career Readiness", copy: "Projects, portfolio and interview prep." },
 ];
 
 export default function HeroVisual() {
   return (
     <div className="relative" aria-hidden="true">
-      <div className="surface-grid absolute inset-0 rounded-3xl opacity-60" />
-      <div className="absolute -top-10 -right-6 size-40 rounded-full bg-cyan/20 blur-3xl" />
-      <div className="absolute bottom-0 -left-6 size-40 rounded-full bg-indigo/40 blur-3xl" />
+      <div className="pointer-events-none absolute -top-8 -right-4 size-40 rounded-full bg-accent blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-8 -left-4 size-40 rounded-full bg-primary/10 blur-3xl" />
 
-      <div className="card-glass animate-float relative rounded-3xl p-6 shadow-[var(--shadow-elevated)]">
-        <div className="mb-5 flex gap-1.5">
-          <span className="size-2.5 rounded-full bg-cyan/70" />
-          <span className="size-2.5 rounded-full bg-muted-foreground/40" />
-          <span className="size-2.5 rounded-full bg-muted-foreground/25" />
+      <div className="relative rounded-2xl border border-border bg-surface-light p-5 shadow-[var(--shadow-elevated)] sm:p-6">
+        <div className="flex items-center justify-between gap-3 border-b border-border pb-4">
+          <span className="text-xs font-semibold tracking-[0.2em] text-muted-foreground uppercase">Nexbyta</span>
+          <span className="flex gap-1.5">
+            <span className="size-2 rounded-full bg-primary/70" />
+            <span className="size-2 rounded-full bg-cyan/60" />
+            <span className="size-2 rounded-full bg-border" />
+          </span>
         </div>
 
-        <div className="space-y-3">
-          {snippets.map((snippet) => (
-            <p
-              key={snippet.code}
-              style={{ animationDelay: snippet.delay }}
-              className="animate-rise rounded-xl border border-border bg-background/60 px-4 py-3 font-mono text-xs text-foreground/85"
+        <ul className="mt-5 space-y-3">
+          {pillars.map(({ icon: LucideIcon, title, copy }) => (
+            <li
+              key={title}
+              className="flex min-w-0 items-start gap-3 rounded-xl border border-border bg-[#F8FAFC] p-4"
             >
-              <span className="text-cyan">{"› "}</span>
-              {snippet.code}
-            </p>
+              <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-accent text-primary">
+                <LucideIcon className="size-4" />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-sm font-semibold text-foreground">{title}</span>
+                <span className="block text-xs leading-relaxed text-muted-foreground">{copy}</span>
+              </span>
+            </li>
           ))}
-        </div>
+        </ul>
 
-        <div className="mt-6 grid grid-cols-8 gap-2">
-          {Array.from({ length: 24 }).map((_, index) => (
-            <span
-              key={index}
-              className="aspect-square rounded-[3px]"
-              style={{
-                background:
-                  index % 5 === 0
-                    ? "var(--cyan)"
-                    : index % 3 === 0
-                      ? "color-mix(in oklab, var(--indigo) 80%, transparent)"
-                      : "color-mix(in oklab, var(--cyan) 12%, transparent)",
-                opacity: index % 7 === 0 ? 0.35 : 0.85,
-              }}
-            />
+        <dl className="mt-5 grid gap-3 sm:grid-cols-2">
+          {stats.map((stat) => (
+            <div key={stat.label} className="rounded-xl border border-border p-4">
+              <dt className="text-[0.65rem] font-semibold tracking-[0.18em] text-muted-foreground uppercase">
+                {stat.label}
+              </dt>
+              <dd className="mt-1 text-xs leading-relaxed font-medium text-foreground">{stat.value}</dd>
+            </div>
           ))}
-        </div>
+        </dl>
       </div>
     </div>
   );
