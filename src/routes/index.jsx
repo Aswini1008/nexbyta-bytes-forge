@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, ExternalLink } from "lucide-react";
 import Button from "../components/Button";
 import HeroVisual from "../components/HeroVisual";
 import CourseCard from "../components/CourseCard";
@@ -11,9 +11,9 @@ import {
   courseFaqs,
   courses,
   learningProcess,
+  deliveredWork,
   sampleProjects,
   techStack,
-  testimonials,
   trustPoints,
   whyNexbyta,
 } from "../data/site";
@@ -49,7 +49,8 @@ function Home() {
           <div className="animate-rise">
             <p className="text-xs font-semibold tracking-[0.32em] text-cyan uppercase">Build • Learn • Grow</p>
             <h1 className="mt-5 text-4xl leading-[1.08] font-extrabold sm:text-5xl lg:text-6xl">
-              Building the <span className="text-gradient-brand">Next Byte</span> of Technology
+              Building the <span className="text-gradient-brand">Next Generation</span> of Technology Talent &amp;
+              Digital Solutions
             </h1>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
               Industry-ready technology training and modern digital solutions for students, professionals and
@@ -223,13 +224,37 @@ function Home() {
       </Section>
 
       <Section tone="dark">
-        <SectionHeading eyebrow="Feedback" title="What People Say" align="center" />
-        <div className="grid gap-6 md:grid-cols-3">
-          {testimonials.map((item, index) => (
-            <blockquote key={index} className="card-glass rounded-2xl p-6">
-              <p className="text-sm leading-relaxed text-muted-foreground">“{item.quote}”</p>
-              <footer className="mt-4 text-xs tracking-[0.2em] text-cyan uppercase">{item.role}</footer>
-            </blockquote>
+        <SectionHeading
+          eyebrow="Delivered work"
+          title="Projects We Have Delivered"
+          subtitle="Real client work built, tested and handed over by our development team."
+        />
+        <div className="grid gap-6 md:grid-cols-2">
+          {deliveredWork.map((project) => (
+            <article
+              key={project.title}
+              className="card-glass rounded-2xl p-6 transition-colors duration-200 hover:border-primary/40 sm:p-8"
+            >
+              <p className="text-xs font-semibold tracking-[0.2em] text-cyan uppercase">{project.category}</p>
+              <h3 className="mt-2 text-xl font-semibold">{project.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{project.description}</p>
+              <ul className="mt-5 flex flex-wrap gap-2">
+                {project.tags.map((tag) => (
+                  <li key={tag} className="rounded-full border border-border px-2.5 py-1 text-xs text-muted-foreground">
+                    {tag}
+                  </li>
+                ))}
+              </ul>
+              <a
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
+              >
+                Visit website
+                <ExternalLink className="size-4" aria-hidden="true" />
+              </a>
+            </article>
           ))}
         </div>
       </Section>
