@@ -31,7 +31,7 @@ export default function HeroVisual() {
           {pillars.map(({ icon: LucideIcon, title, copy }) => (
             <li
               key={title}
-              className="flex min-w-0 items-start gap-3 rounded-xl border border-border bg-[#F8FAFC] p-4"
+              className="flex min-w-0 items-start gap-3 rounded-xl border border-border bg-[var(--background)]/60 p-4"
             >
               <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-accent text-primary">
                 <LucideIcon className="size-4" />

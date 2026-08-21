@@ -5,7 +5,7 @@ import { company, courses, navLinks } from "../data/site";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-border bg-[#F8FAFC]">
+    <footer className="border-t border-border bg-surface-soft">
       <div className="mx-auto grid w-full max-w-6xl gap-10 px-5 py-14 sm:px-8 sm:grid-cols-2 lg:grid-cols-4">
         <div className="min-w-0">
           <Brand />

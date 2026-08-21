@@ -6,8 +6,8 @@
 
 /*
  * Nexbyta Technologies design system.
- * Dark premium technology theme is the default surface; light sections use
- * the --surface-light / --surface-soft tokens.
+ * Premium dark navy technology theme. --surface-light is the elevated card
+ * surface and --surface-soft the recessed section band.
  */
 
 @theme inline {
@@ -125,13 +125,19 @@
 
 @utility surface-grid {
   background-image:
-    linear-gradient(to right, oklch(0.208 0.042 265.8 / 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, oklch(0.208 0.042 265.8 / 0.05) 1px, transparent 1px);
+    linear-gradient(to right, oklch(0.72 0.09 250 / 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(0.72 0.09 250 / 0.07) 1px, transparent 1px);
   background-size: 56px 56px;
 }
 
+@utility hero-glow {
+  background:
+    radial-gradient(60% 55% at 22% 18%, oklch(0.62 0.196 258 / 0.22), transparent 70%),
+    radial-gradient(45% 45% at 85% 30%, oklch(0.79 0.13 205 / 0.14), transparent 72%);
+}
+
 @utility card-glass {
-  background: var(--surface-light);
+  background: linear-gradient(180deg, oklch(1 0 0 / 0.035), oklch(1 0 0 / 0.012)), var(--surface-light);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-card);
 }

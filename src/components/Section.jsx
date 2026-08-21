@@ -1,7 +1,7 @@
 export function Section({ children, className = "", tone = "light", id }) {
   const tones = {
     dark: "bg-surface-light text-foreground",
-    deep: "bg-[#F8FAFC] text-foreground",
+    deep: "bg-surface-soft text-foreground",
     light: "bg-surface-light text-foreground",
     soft: "bg-surface-soft text-foreground",
   };
