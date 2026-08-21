@@ -1,3 +1,4 @@
+import { ExternalLink } from "lucide-react";
 import { createFileRoute } from "@tanstack/react-router";
 import ServiceCard from "../components/ServiceCard";
 import TechnologyBadge from "../components/TechnologyBadge";
