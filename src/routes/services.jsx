@@ -1,10 +1,11 @@
+import { ExternalLink } from "lucide-react";
 import { createFileRoute } from "@tanstack/react-router";
 import ServiceCard from "../components/ServiceCard";
 import TechnologyBadge from "../components/TechnologyBadge";
 import FAQAccordion from "../components/FAQAccordion";
 import Button from "../components/Button";
 import { Section, SectionHeading } from "../components/Section";
-import { deliveryProcess, sampleProjects, serviceFaqs, services, techStack } from "../data/site";
+import { deliveredWork, deliveryProcess, sampleProjects, serviceFaqs, services, techStack } from "../data/site";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -55,6 +56,43 @@ function ServicesPage() {
             </li>
           ))}
         </ol>
+      </Section>
+
+      <Section tone="soft">
+        <SectionHeading
+          eyebrow="Delivered work"
+          title="Projects We Have Delivered"
+          subtitle="Real client work built, tested and handed over by our development team."
+          tone="light"
+        />
+        <div className="grid gap-6 md:grid-cols-2">
+          {deliveredWork.map((project) => (
+            <article
+              key={project.title}
+              className="rounded-2xl border border-ink/10 bg-surface-light p-6 shadow-sm transition-colors duration-200 hover:border-primary/40 sm:p-8"
+            >
+              <p className="text-xs font-semibold tracking-[0.2em] text-cyan uppercase">{project.category}</p>
+              <h3 className="mt-2 text-xl font-semibold text-ink">{project.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-ink/70">{project.description}</p>
+              <ul className="mt-5 flex flex-wrap gap-2">
+                {project.tags.map((tag) => (
+                  <li key={tag} className="rounded-full border border-ink/10 px-2.5 py-1 text-xs text-ink/70">
+                    {tag}
+                  </li>
+                ))}
+              </ul>
+              <a
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
+              >
+                Visit website
+                <ExternalLink className="size-4" aria-hidden="true" />
+              </a>
+            </article>
+          ))}
+        </div>
       </Section>
 
       <Section tone="deep">

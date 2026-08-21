@@ -277,11 +277,16 @@ export const sampleProjects = [
   { title: "Studio Portfolio Site", category: "Website", tags: ["React", "Tailwind CSS"], description: "Fast, responsive marketing site with structured content." },
 ];
 
-// Placeholders only. Replace with verified student/client feedback before launch.
-export const testimonials = [
-  { quote: "Replace with verified student testimonial.", role: "Student placeholder" },
-  { quote: "Replace with verified client testimonial.", role: "Client placeholder" },
-  { quote: "Replace with verified student testimonial.", role: "Student placeholder" },
+// Real client work delivered by Nexbyta Technologies.
+export const deliveredWork = [
+  {
+    title: "St. Joseph's Church Website",
+    category: "Full-Stack Web Development",
+    description:
+      "A full-stack, responsive website developed and delivered for St. Joseph's Church, Kamplar, with structured content sections, event and announcement pages, and a mobile-first layout built for everyday use by the parish community.",
+    url: "https://stjosephskamplar.org/",
+    tags: ["React", "Node.js", "Responsive Design", "Deployment"],
+  },
 ];
 
 export const courseFaqs = [
