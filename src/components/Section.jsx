@@ -1,11 +1,10 @@
 export function Section({ children, className = "", tone = "light", id }) {
   const tones = {
-    dark: "bg-background text-foreground",
-    deep: "bg-surface-soft text-foreground",
-    light: "bg-background text-foreground",
+    dark: "bg-surface-light text-foreground",
+    deep: "bg-[#F8FAFC] text-foreground",
+    light: "bg-surface-light text-foreground",
     soft: "bg-surface-soft text-foreground",
   };
-
 
   return (
     <section id={id} className={`${tones[tone] ?? tones.light} px-5 py-16 sm:px-8 sm:py-20 lg:py-24 ${className}`}>

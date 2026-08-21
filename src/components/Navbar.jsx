@@ -23,10 +23,8 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b bg-[var(--background)]/85 backdrop-blur-xl transition-colors duration-300 ${
-        scrolled
-          ? "border-primary/20 shadow-[0_10px_30px_-24px_oklch(0.62_0.196_258_/_0.8)]"
-          : "border-border/50"
+      className={`sticky top-0 z-50 border-b bg-surface-light/90 backdrop-blur-md transition-colors duration-300 ${
+        scrolled ? "border-border shadow-[0_1px_2px_rgba(15,23,42,0.04)]" : "border-transparent"
       }`}
     >
       <nav className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-5 py-3.5 sm:px-8" aria-label="Main">
@@ -38,8 +36,8 @@ export default function Navbar() {
               <Link
                 to={link.to}
                 activeOptions={{ exact: link.to === "/" }}
-                activeProps={{ className: "text-foreground after:scale-x-100" }}
-                className="relative rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors duration-200 after:absolute after:inset-x-3 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-[image:var(--gradient-brand)] after:transition-transform after:duration-200 hover:text-foreground hover:after:scale-x-100"
+                activeProps={{ className: "text-primary" }}
+                className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
               >
                 {link.label}
               </Link>
@@ -57,7 +55,7 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="rounded-lg border border-border p-2 text-foreground transition-colors hover:border-primary/50 hover:text-primary lg:hidden"
+          className="rounded-lg border border-border p-2 lg:hidden"
           aria-expanded={open}
           aria-controls="mobile-menu"
           aria-label={open ? "Close menu" : "Open menu"}
@@ -67,7 +65,7 @@ export default function Navbar() {
       </nav>
 
       {open && (
-        <div id="mobile-menu" className="border-t border-border bg-[var(--background)]/95 px-5 pb-6 backdrop-blur-xl lg:hidden">
+        <div id="mobile-menu" className="border-t border-border bg-background/95 px-5 pb-6 backdrop-blur-xl lg:hidden">
           <ul className="flex flex-col py-2">
             {navLinks.map((link) => (
               <li key={link.to}>
