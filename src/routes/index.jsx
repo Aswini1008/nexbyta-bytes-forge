@@ -226,7 +226,7 @@ function Home() {
       <Section tone="dark">
         <SectionHeading
           eyebrow="Delivered work"
-          title="Projects We Have Delivered"
+          title="Projects We've Delivered"
           subtitle="Real client work built, tested and handed over by our development team."
         />
         <div className="grid gap-6 md:grid-cols-2">
