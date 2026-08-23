@@ -226,7 +226,7 @@ function Home() {
       <Section tone="dark">
         <SectionHeading
           eyebrow="Delivered work"
-          title="Projects We Have Delivered"
+          title="Projects We've Delivered"
           subtitle="Real client work built, tested and handed over by our development team."
         />
         <div className="grid gap-6 md:grid-cols-2">
@@ -264,28 +264,32 @@ function Home() {
         <FAQAccordion items={courseFaqs} tone="light" />
       </Section>
 
-      <section className="bg-[image:var(--gradient-brand)] px-5 py-20 sm:px-8">
-        <div className="mx-auto flex w-full max-w-6xl flex-col items-start justify-between gap-6 md:flex-row md:items-center">
-          <div>
-            <h2 className="text-3xl font-bold text-primary-foreground">Ready to take the next step?</h2>
-            <p className="mt-3 max-w-xl text-sm text-primary-foreground/80">
-              Talk to our team about a course track or a development project. Call {company.phone} or send an
-              enquiry.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <Button to="/enquiry" variant="accent">
-              Get Started
-            </Button>
-            <Link
-              to="/contact"
-              className="inline-flex items-center justify-center rounded-xl border border-primary-foreground/40 px-5 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-foreground/10"
-            >
-              Contact Us
-            </Link>
+      <section className="bg-surface-soft px-5 py-20 sm:px-8">
+        <div className="mx-auto w-full max-w-6xl overflow-hidden rounded-2xl border border-border bg-surface-light p-8 shadow-[var(--shadow-card)] sm:p-12">
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+            <div className="min-w-0">
+              <p className="text-xs font-semibold tracking-[0.28em] text-cyan uppercase">Next step</p>
+              <h2 className="mt-3 text-2xl font-bold text-balance sm:text-3xl">Ready to take the next step?</h2>
+              <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
+                Talk to our team about a course track or a development project. Call {company.phone} or send an
+                enquiry and we will get back to you.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <Button to="/enquiry" variant="accent">
+                Get Started
+              </Button>
+              <Link
+                to="/contact"
+                className="inline-flex min-h-11 items-center justify-center rounded-xl border border-border px-5 py-3 text-sm font-medium text-foreground transition-colors hover:border-primary/40 hover:text-primary"
+              >
+                Contact Us
+              </Link>
+            </div>
           </div>
         </div>
       </section>
+
     </>
   );
 }

@@ -55,36 +55,39 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="rounded-lg border border-border p-2 lg:hidden"
+          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-xl border border-border bg-surface-light text-foreground transition-colors hover:bg-surface-soft lg:hidden"
           aria-expanded={open}
           aria-controls="mobile-menu"
           aria-label={open ? "Close menu" : "Open menu"}
         >
-          {open ? <X className="size-5" /> : <Menu className="size-5" />}
+          {open ? <X className="size-5" aria-hidden="true" /> : <Menu className="size-5" aria-hidden="true" />}
         </button>
       </nav>
 
-      {open && (
-        <div id="mobile-menu" className="border-t border-border bg-background/95 px-5 pb-6 backdrop-blur-xl lg:hidden">
-          <ul className="flex flex-col py-2">
-            {navLinks.map((link) => (
-              <li key={link.to}>
-                <Link
-                  to={link.to}
-                  activeOptions={{ exact: link.to === "/" }}
-                  activeProps={{ className: "text-cyan" }}
-                  className="block border-b border-border/60 py-3 text-base font-medium"
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <Button to="/enquiry" variant="accent" className="mt-4 w-full">
-            Get Started
-          </Button>
-        </div>
-      )}
+      <div
+        id="mobile-menu"
+        hidden={!open}
+        className="w-full max-w-full overflow-x-hidden border-t border-border bg-surface-light px-5 pb-6 shadow-[0_16px_32px_-24px_rgba(15,23,42,0.35)] sm:px-8 lg:hidden"
+      >
+        <ul className="flex flex-col py-1">
+          {navLinks.map((link) => (
+            <li key={link.to}>
+              <Link
+                to={link.to}
+                activeOptions={{ exact: link.to === "/" }}
+                activeProps={{ className: "text-primary" }}
+                className="flex min-h-11 w-full items-center rounded-lg border-b border-border/70 px-1 py-3 text-base font-medium text-foreground transition-colors hover:text-primary"
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <Button to="/enquiry" variant="accent" className="mt-5 w-full justify-center">
+          Get Started
+        </Button>
+      </div>
     </header>
   );
 }
+
