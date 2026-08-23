@@ -44,6 +44,11 @@
   --color-surface-light: var(--surface-light);
   --color-surface-soft: var(--surface-soft);
   --color-ink: var(--ink);
+  --color-shell: var(--shell);
+  --color-shell-elevated: var(--shell-elevated);
+  --color-shell-foreground: var(--shell-foreground);
+  --color-shell-muted: var(--shell-muted);
+  --color-shell-border: var(--shell-border);
 }
 
 :root {
