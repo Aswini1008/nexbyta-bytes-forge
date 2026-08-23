@@ -23,12 +23,15 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b bg-surface-light/90 backdrop-blur-md transition-colors duration-300 ${
-        scrolled ? "border-border shadow-[0_1px_2px_rgba(15,23,42,0.04)]" : "border-transparent"
+      className={`sticky top-0 z-50 border-b border-shell-border bg-shell/95 text-shell-foreground backdrop-blur-md transition-shadow duration-300 ${
+        scrolled ? "shadow-[0_10px_30px_-20px_rgba(2,6,23,0.9)]" : ""
       }`}
     >
-      <nav className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-5 py-3.5 sm:px-8" aria-label="Main">
-        <Brand />
+      <nav
+        className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-5 py-3.5 sm:px-8"
+        aria-label="Main"
+      >
+        <Brand onDark />
 
         <ul className="hidden items-center gap-1 lg:flex">
           {navLinks.map((link) => (
@@ -36,15 +39,14 @@ export default function Navbar() {
               <Link
                 to={link.to}
                 activeOptions={{ exact: link.to === "/" }}
-                activeProps={{ className: "text-primary" }}
-                className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                activeProps={{ className: "bg-shell-elevated text-shell-foreground" }}
+                className="rounded-lg px-3 py-2 text-sm font-medium text-shell-muted transition-colors hover:bg-shell-elevated hover:text-shell-foreground"
               >
                 {link.label}
               </Link>
             </li>
           ))}
         </ul>
-
 
         <div className="hidden lg:block">
           <Button to="/enquiry" variant="accent">
@@ -55,7 +57,7 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-xl border border-border bg-surface-light text-foreground transition-colors hover:bg-surface-soft lg:hidden"
+          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-xl border border-shell-border bg-shell-elevated text-shell-foreground transition-colors hover:bg-shell-border lg:hidden"
           aria-expanded={open}
           aria-controls="mobile-menu"
           aria-label={open ? "Close menu" : "Open menu"}
@@ -67,7 +69,7 @@ export default function Navbar() {
       <div
         id="mobile-menu"
         hidden={!open}
-        className="w-full max-w-full overflow-x-hidden border-t border-border bg-surface-light px-5 pb-6 shadow-[0_16px_32px_-24px_rgba(15,23,42,0.35)] sm:px-8 lg:hidden"
+        className="w-full max-w-full overflow-x-hidden border-t border-shell-border bg-shell px-5 pb-6 text-shell-foreground shadow-[0_16px_32px_-24px_rgba(2,6,23,0.9)] sm:px-8 lg:hidden"
       >
         <ul className="flex flex-col py-1">
           {navLinks.map((link) => (
@@ -75,8 +77,8 @@ export default function Navbar() {
               <Link
                 to={link.to}
                 activeOptions={{ exact: link.to === "/" }}
-                activeProps={{ className: "text-primary" }}
-                className="flex min-h-11 w-full items-center rounded-lg border-b border-border/70 px-1 py-3 text-base font-medium text-foreground transition-colors hover:text-primary"
+                activeProps={{ className: "text-cyan" }}
+                className="flex min-h-11 w-full items-center rounded-lg border-b border-shell-border/70 px-1 py-3 text-base font-medium text-shell-foreground transition-colors hover:text-cyan"
               >
                 {link.label}
               </Link>
@@ -90,4 +92,3 @@ export default function Navbar() {
     </header>
   );
 }
-
