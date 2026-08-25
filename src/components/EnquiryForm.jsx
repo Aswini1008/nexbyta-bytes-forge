@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useServerFn } from "@tanstack/react-start";
+import emailjs from "@emailjs/browser";
 import { CheckCircle2, Loader2, AlertCircle } from "lucide-react";
 import Button from "./Button";
 import { interestOptions } from "../data/site";
@@ -22,18 +22,21 @@ function validate(values) {
   return errors;
 }
 
-export default function EnquiryForm({ submitFn, defaultInterest = "", tone = "dark" }) {
-  const send = useServerFn(submitFn);
+export default function EnquiryForm({ defaultInterest = "", tone = "dark" }) {
   const [values, setValues] = useState({ ...initial, interestedIn: defaultInterest });
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState("idle");
   const [whatsappLink, setWhatsappLink] = useState("");
 
+  const emailjsServiceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || "service_pajcxxj";
+  const emailjsPublicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+  const emailjsTemplateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+
   const light = tone === "light";
   const fieldClass = `w-full rounded-xl border px-4 py-3 text-sm outline-none transition-colors ${
     light
       ? "border-ink/15 bg-surface-light text-ink placeholder:text-ink/40 focus:border-indigo"
-      : "border-border bg-[var(--card)] text-foreground placeholder:text-muted-foreground focus:border-cyan"
+      : "border-border bg-card text-foreground placeholder:text-muted-foreground focus:border-cyan"
   }`;
   const labelClass = `mb-2 block text-sm font-medium ${light ? "text-ink" : "text-foreground"}`;
 
@@ -47,14 +50,25 @@ export default function EnquiryForm({ submitFn, defaultInterest = "", tone = "da
 
     setStatus("loading");
     try {
-      const result = await send({
-        data: { ...values, name: values.name.trim(), email: values.email.trim() },
+      if (!emailjsPublicKey || !emailjsTemplateId) {
+        throw new Error("EmailJS is not configured. Add VITE_EMAILJS_PUBLIC_KEY and VITE_EMAILJS_TEMPLATE_ID.");
+      }
+
+      const payload = {
+        name: values.name.trim(),
+        phone: values.phone.trim(),
+        email: values.email.trim(),
+        interest: values.interestedIn.trim(),
+        user_type: values.userType,
+        message: values.message.trim(),
+        time: new Date().toLocaleString(),
+      };
+
+      await emailjs.send(emailjsServiceId, emailjsTemplateId, payload, {
+        publicKey: emailjsPublicKey,
       });
-      setWhatsappLink(
-        result?.whatsappText
-          ? `https://wa.me/918248588520?text=${encodeURIComponent(result.whatsappText)}`
-          : "",
-      );
+
+      setWhatsappLink("");
       setStatus("success");
       setValues({ ...initial, interestedIn: defaultInterest });
     } catch {
@@ -67,7 +81,7 @@ export default function EnquiryForm({ submitFn, defaultInterest = "", tone = "da
       <div
         role="status"
         className={`flex flex-col items-start gap-3 rounded-2xl border p-8 ${
-          light ? "border-ink/10 bg-surface-soft text-ink" : "border-border bg-[var(--card)]"
+          light ? "border-ink/10 bg-surface-soft text-ink" : "border-border bg-card"
         }`}
       >
         <CheckCircle2 className="size-8 text-cyan" aria-hidden="true" />

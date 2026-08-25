@@ -1,11 +1,11 @@
-import { ExternalLink } from "lucide-react";
-import { createFileRoute } from "@tanstack/react-router";
-import ServiceCard from "../components/ServiceCard";
+import { ArrowRight, ExternalLink } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import TechnologyBadge from "../components/TechnologyBadge";
 import FAQAccordion from "../components/FAQAccordion";
 import Button from "../components/Button";
+import Icon from "../components/icons";
 import { Section, SectionHeading } from "../components/Section";
-import { deliveredWork, deliveryProcess, sampleProjects, serviceFaqs, services, techStack } from "../data/site";
+import { deliveredWork, deliveryProcess, serviceFaqs, services, techStack } from "../data/site";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -38,9 +38,14 @@ function ServicesPage() {
           subtitle="From a single website to a complete product platform, we design, build and deliver software that fits how your business actually works."
           tone="light"
         />
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((service) => (
-            <ServiceCard key={service.slug} service={service} />
+        <div className="divide-y divide-border border-y border-border">
+          {services.map((service, index) => (
+            <article key={service.slug} className="group grid gap-5 py-7 first:pt-0 last:pb-0 lg:grid-cols-[0.8fr_1fr_1fr_auto] lg:items-center lg:gap-8">
+              <div className="flex items-center gap-4"><span className="grid size-10 shrink-0 place-items-center bg-accent text-primary"><Icon name={service.icon} className="size-5" /></span><div><p className="font-mono text-xs text-primary">0{index + 1}</p><h3 className="mt-1 text-lg font-semibold text-foreground">{service.title}</h3></div></div>
+              <div><p className="text-xs font-semibold tracking-[0.16em] text-muted-foreground uppercase">Need</p><p className="mt-2 text-sm leading-relaxed text-muted-foreground">{service.title === "Portfolio & Website Development" ? "A credible online presence?" : service.title === "Custom Software Development" ? "A workflow that does not fit an off-the-shelf tool?" : service.title === "Backend Development" ? "Reliable APIs and data foundations?" : service.title === "Full-Stack Development" ? "A complete product with one coherent build?" : "A modern digital product built around your requirements?"}</p></div>
+              <div><p className="text-xs font-semibold tracking-[0.16em] text-muted-foreground uppercase">Solution</p><p className="mt-2 text-sm leading-relaxed text-foreground">{service.description}</p><ul className="mt-3 flex flex-wrap gap-2">{service.technologies.map((technology) => <li key={technology} className="bg-surface-soft px-2 py-1 text-xs text-muted-foreground">{technology}</li>)}</ul></div>
+              <Link to="/enquiry" search={{ interest: service.title }} className="inline-flex items-center gap-2 text-sm font-semibold text-primary transition-colors hover:text-primary/75 lg:justify-self-end">Discuss this need <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" /></Link>
+            </article>
           ))}
         </div>
       </Section>
@@ -95,30 +100,10 @@ function ServicesPage() {
         </div>
       </Section>
 
-      <Section tone="deep">
-        <SectionHeading
-          eyebrow="Example work"
-          title="Projects We Build"
-          subtitle="Illustrative examples of our delivery scope, not client case studies."
-        />
-        <div className="grid gap-6 md:grid-cols-3">
-          {sampleProjects.map((project) => (
-            <article key={project.title} className="card-glass overflow-hidden rounded-2xl">
-              <div className="surface-grid h-32 bg-[image:var(--gradient-brand)] opacity-90" aria-hidden="true" />
-              <div className="p-6">
-                <p className="text-xs tracking-[0.2em] text-cyan uppercase">{project.category}</p>
-                <h3 className="mt-2 text-lg font-semibold">{project.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{project.description}</p>
-                <ul className="mt-4 flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <li key={tag} className="rounded-full border border-border px-2.5 py-1 text-xs text-muted-foreground">
-                      {tag}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </article>
-          ))}
+      <Section tone="deep" id="contact">
+        <div className="grid gap-8 border border-border bg-shell p-7 text-shell-foreground shadow-(--shadow-elevated) sm:p-10 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div><p className="text-xs font-semibold tracking-[0.2em] text-cyan uppercase">Have a project in mind?</p><h2 className="mt-3 max-w-2xl text-3xl font-bold tracking-tight sm:text-4xl">Let’s turn your idea into a practical digital product.</h2><p className="mt-4 max-w-xl text-sm leading-relaxed text-shell-muted">Share the workflow, audience or challenge you are working with. We will start with a focused scoping conversation.</p></div>
+          <Button to="/enquiry" variant="light" className="gap-2">Start a Conversation <ArrowRight className="size-4" aria-hidden="true" /></Button>
         </div>
       </Section>
 

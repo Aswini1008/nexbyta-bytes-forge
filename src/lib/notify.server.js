@@ -1,6 +1,6 @@
 // Server-only helpers for delivering a new enquiry to the company.
 
-export const NOTIFY_EMAIL = "aravinthbalu15@gmail.com";
+export const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL || "nexbytatechnologies@gmail.com";
 
 export function formatEnquiryText(data) {
   return [
@@ -10,6 +10,7 @@ export function formatEnquiryText(data) {
     `Interested In: ${data.interestedIn}`,
     `I am a: ${data.userType}`,
     `Message: ${data.message || "(none)"}`,
+    `Received: ${new Date().toISOString()}`,
   ].join("\n");
 }
 
@@ -28,6 +29,7 @@ function formatEnquiryHtml(data) {
     ["Interested In", data.interestedIn],
     ["I am a", data.userType],
     ["Message", data.message || "(none)"],
+    ["Received", new Date().toISOString()],
   ]
     .map(
       ([label, value]) =>
@@ -42,35 +44,48 @@ function formatEnquiryHtml(data) {
   </div>`;
 }
 
+/**
+ * sendEnquiryEmail
+ * SMTP via Nodemailer (preferred for this change)
+ * Required env vars (server-side): SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS
+ * Optional: SMTP_FROM (sender address), NOTIFY_EMAIL (recipient)
+ */
 export async function sendEnquiryEmail(data) {
-  const lovableKey = process.env["LOVABLE_API_KEY"];
-  const resendKey = process.env["RESEND_API_KEY"];
-  if (!lovableKey || !resendKey) {
-    throw new Error("Email service is not configured");
+  const host = process.env.SMTP_HOST;
+  const port = process.env.SMTP_PORT ? parseInt(process.env.SMTP_PORT, 10) : undefined;
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASS;
+  const from = process.env.SMTP_FROM || `Nexbyta Website <${process.env.SMTP_USER || "no-reply@yourdomain.com"}>`;
+  const recipient = process.env.NOTIFY_EMAIL || NOTIFY_EMAIL;
+
+  if (!host || !port || !user || !pass) {
+    throw new Error("SMTP not configured. Set SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS in the runtime environment.");
   }
 
-  const response = await fetch("https://connector-gateway.lovable.dev/resend/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${lovableKey}`,
-      "X-Connection-Api-Key": resendKey,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from: "Nexbyta Website <onboarding@resend.dev>",
-      to: [NOTIFY_EMAIL],
-      reply_to: data.email,
+  try {
+    const nodemailer = await import("nodemailer");
+    const transporter = nodemailer.createTransport({
+      host,
+      port,
+      secure: port === 465,
+      auth: {
+        user,
+        pass,
+      },
+    });
+
+    const info = await transporter.sendMail({
+      from,
+      to: recipient,
+      replyTo: data.email,
       subject: `New enquiry: ${data.interestedIn} — ${data.name}`,
       text: formatEnquiryText(data),
       html: formatEnquiryHtml(data),
-    }),
-  });
+    });
 
-  if (!response.ok) {
-    const body = await response.text();
-    console.error(`Resend request failed [${response.status}]: ${body}`);
-    throw new Error(`Email delivery failed [${response.status}]: ${body}`);
+    return info;
+  } catch (err) {
+    console.error("SMTP send failed", err);
+    throw new Error(`SMTP send failed: ${err instanceof Error ? err.message : String(err)}`);
   }
-
-  return await response.json();
 }

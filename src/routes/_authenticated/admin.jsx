@@ -144,7 +144,7 @@ function AdminPage() {
                   <td className="px-4 py-3">
                     <select
                       aria-label={`Status for ${row.name}`}
-                      className="rounded-lg border border-border bg-[var(--card)] px-2 py-1 text-xs"
+                      className="rounded-lg border border-border bg-card px-2 py-1 text-xs"
                       value={row.status}
                       onChange={(event) => onStatusChange(row.id, event.target.value)}
                     >

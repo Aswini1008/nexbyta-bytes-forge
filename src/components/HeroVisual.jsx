@@ -17,7 +17,7 @@ export default function HeroVisual() {
       <div className="pointer-events-none absolute -top-8 -right-4 size-40 rounded-full bg-accent blur-3xl" />
       <div className="pointer-events-none absolute -bottom-8 -left-4 size-40 rounded-full bg-primary/10 blur-3xl" />
 
-      <div className="relative rounded-2xl border border-border bg-surface-light p-5 shadow-[var(--shadow-elevated)] sm:p-6">
+      <div className="relative rounded-2xl border border-border bg-surface-light p-5 shadow-(--shadow-elevated) sm:p-6">
         <div className="flex items-center justify-between gap-3 border-b border-border pb-4">
           <span className="text-xs font-semibold tracking-[0.2em] text-muted-foreground uppercase">Nexbyta</span>
           <span className="flex gap-1.5">

@@ -4,17 +4,17 @@ import Icon from "./icons";
 
 export default function ServiceCard({ service }) {
   return (
-    <article className="group flex h-full flex-col rounded-2xl border border-border bg-surface-light p-6 shadow-[var(--shadow-card)] transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40">
+    <article className="group flex h-full flex-col rounded-2xl border border-border bg-surface-light p-6 shadow-(--shadow-card) transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40">
       <span className="inline-flex size-11 items-center justify-center rounded-xl bg-accent text-primary">
         <Icon name={service.icon} className="size-5" />
       </span>
 
       <h3 className="mt-5 text-lg font-semibold text-foreground">{service.title}</h3>
-      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{service.description}</p>
+      <p className="mt-2 text-sm leading-relaxed text-foreground">{service.description}</p>
 
       <ul className="mt-4 space-y-2">
         {service.benefits.map((benefit) => (
-          <li key={benefit} className="flex items-start gap-2 text-sm text-muted-foreground">
+          <li key={benefit} className="flex items-start gap-2 text-sm text-foreground">
             <Check className="mt-0.5 size-4 shrink-0 text-cyan" aria-hidden="true" />
             {benefit}
           </li>
@@ -23,7 +23,7 @@ export default function ServiceCard({ service }) {
 
       <ul className="mt-5 flex flex-wrap gap-2">
         {service.technologies.map((tech) => (
-          <li key={tech} className="rounded-lg bg-surface-soft px-2.5 py-1 text-xs text-muted-foreground">
+          <li key={tech} className="rounded-lg bg-surface-soft px-2.5 py-1 text-xs text-foreground">
             {tech}
           </li>
         ))}

@@ -1,7 +1,8 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import { useState } from "react";
+import { useId, useState } from "react";
 import { Check, ChevronDown } from "lucide-react";
 import Button from "../components/Button";
+import Reveal from "../components/Reveal";
 import TechnologyBadge from "../components/TechnologyBadge";
 import { Section, SectionHeading } from "../components/Section";
 import { company, courseFaqs, courses } from "../data/site";
@@ -47,12 +48,15 @@ function CourseNotFound() {
 
 function CurriculumModule({ index, module }) {
   const [open, setOpen] = useState(index === 0);
+  const panelId = useId();
+
   return (
-    <div className="card-glass rounded-2xl">
+    <div className="card-glass overflow-hidden rounded-2xl">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
+        aria-controls={panelId}
         className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
       >
         <span>
@@ -66,8 +70,14 @@ function CurriculumModule({ index, module }) {
           aria-hidden="true"
         />
       </button>
-      {open && (
-        <ul className="space-y-2 px-5 pb-5 text-sm text-muted-foreground">
+      <div
+        id={panelId}
+        role="region"
+        className={`grid transition-all duration-300 ease-in-out ${
+          open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+        }`}
+      >
+        <ul className="min-h-0 space-y-2 overflow-hidden px-5 pb-5 text-sm text-muted-foreground">
           {module.topics.map((topic) => (
             <li key={topic} className="flex items-start gap-2">
               <Check className="mt-0.5 size-4 shrink-0 text-cyan" aria-hidden="true" />
@@ -75,14 +85,14 @@ function CurriculumModule({ index, module }) {
             </li>
           ))}
         </ul>
-      )}
+      </div>
     </div>
   );
 }
 
 function InfoList({ title, items }) {
   return (
-    <div className="card-glass rounded-2xl p-6">
+    <div className="card-glass h-full rounded-2xl p-6">
       <h3 className="text-base font-semibold">{title}</h3>
       <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
         {items.map((item) => (
@@ -121,9 +131,9 @@ function CourseDetails() {
 
       <Section tone="dark">
         <div className="grid gap-6 md:grid-cols-3">
-          <InfoList title="Who is this course for?" items={course.audience} />
-          <InfoList title="Prerequisites" items={course.prerequisites} />
-          <InfoList title="What you will learn" items={course.outcomes} />
+          <Reveal><InfoList title="Who is this course for?" items={course.audience} /></Reveal>
+          <Reveal delay={80}><InfoList title="Prerequisites" items={course.prerequisites} /></Reveal>
+          <Reveal delay={160}><InfoList title="What you will learn" items={course.outcomes} /></Reveal>
         </div>
       </Section>
 
@@ -189,11 +199,13 @@ function CourseDetails() {
       <Section tone="soft">
         <SectionHeading eyebrow="FAQ" title="Common Questions" tone="light" />
         <dl className="grid gap-6 md:grid-cols-2">
-          {courseFaqs.map((faq) => (
-            <div key={faq.q} className="rounded-2xl border border-ink/10 bg-surface-light p-6 shadow-sm">
-              <dt className="text-base font-semibold text-ink">{faq.q}</dt>
-              <dd className="mt-2 text-sm leading-relaxed text-ink/70">{faq.a}</dd>
-            </div>
+          {courseFaqs.map((faq, i) => (
+            <Reveal key={faq.q} delay={i * 60}>
+              <div className="rounded-2xl border border-ink/10 bg-surface-light p-6 shadow-sm">
+                <dt className="text-base font-semibold text-ink">{faq.q}</dt>
+                <dd className="mt-2 text-sm leading-relaxed text-ink/70">{faq.a}</dd>
+              </div>
+            </Reveal>
           ))}
         </dl>
       </Section>

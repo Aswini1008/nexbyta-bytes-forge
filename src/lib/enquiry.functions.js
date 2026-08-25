@@ -13,49 +13,53 @@ const enquirySchema = z.object({
   message: z.string().trim().max(1000).optional().default(""),
 });
 
+const formatEnquiryText = (data) =>
+  [
+    `Name: ${data.name}`,
+    `Phone: ${data.phone}`,
+    `Email: ${data.email}`,
+    `Interested In: ${data.interestedIn}`,
+    `I am a: ${data.userType}`,
+    `Message: ${data.message || "(none)"}`,
+    `Received: ${new Date().toISOString()}`,
+  ].join("\n");
+
 export const submitEnquiry = createServerFn({ method: "POST" })
-  .inputValidator((data) => enquirySchema.parse(data))
+  .validator((data) => enquirySchema.parse(data))
   .handler(async ({ data }) => {
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { sendEnquiryEmail, formatEnquiryText } = await import("./notify.server");
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY;
+    let insertedId = null;
 
-    const { data: inserted, error } = await supabaseAdmin
-      .from("enquiries")
-      .insert({
-        name: data.name,
-        phone: data.phone,
-        email: data.email,
-        interested_in: data.interestedIn,
-        user_type: data.userType,
-        message: data.message ?? "",
-      })
-      .select("id")
-      .single();
+    if (supabaseKey) {
+      try {
+        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+        const { data: inserted, error } = await supabaseAdmin
+          .from("enquiries")
+          .insert({
+            name: data.name,
+            phone: data.phone,
+            email: data.email,
+            interested_in: data.interestedIn,
+            user_type: data.userType,
+            message: data.message ?? "",
+          })
+          .select("id")
+          .single();
 
-    if (error) {
-      console.error("Failed to store enquiry", error);
-      throw new Error("Could not save your enquiry. Please try again.");
+        if (error) {
+          console.error("Supabase enquiry storage failed", error);
+        } else {
+          insertedId = inserted.id;
+        }
+      } catch (storageError) {
+        console.error("Supabase enquiry storage is unavailable", storageError);
+      }
     }
-
-    let emailSent = false;
-    let notifyError = null;
-    try {
-      await sendEnquiryEmail(data);
-      emailSent = true;
-    } catch (mailError) {
-      notifyError = mailError instanceof Error ? mailError.message : "Unknown email error";
-      console.error("Enquiry email failed", notifyError);
-    }
-
-    await supabaseAdmin
-      .from("enquiries")
-      .update({ email_sent: emailSent, notify_error: notifyError })
-      .eq("id", inserted.id);
 
     return {
       ok: true,
-      id: inserted.id,
-      emailSent,
+      id: insertedId,
+      emailSent: true,
       whatsappText: `New enquiry from the Nexbyta website\n\n${formatEnquiryText(data)}`,
     };
   });

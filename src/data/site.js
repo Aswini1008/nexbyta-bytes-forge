@@ -15,10 +15,9 @@ export const company = {
 
 export const navLinks = [
   { label: "Home", to: "/" },
+  { label: "About Us", to: "/about" },
   { label: "Courses", to: "/courses" },
   { label: "Services", to: "/services" },
-  { label: "Career", to: "/career" },
-  { label: "About", to: "/about" },
   { label: "Contact", to: "/contact" },
 ];
 
@@ -280,12 +279,21 @@ export const sampleProjects = [
 // Real client work delivered by Nexbyta Technologies.
 export const deliveredWork = [
   {
-    title: "St. Joseph's Church Website",
-    category: "Full-Stack Web Development",
+    title: "PR Power",
+    category: "Company Website",
     description:
-      "A full-stack, responsive website developed and delivered for St. Joseph's Church, Kamplar, with structured content sections, event and announcement pages, and a mobile-first layout built for everyday use by the parish community.",
+      "A modern, responsive company website designed to present PR Power and Infrastructure's services, capabilities and business presence through a clean digital experience.",
+    tags: ["React", "Tailwind CSS", "Responsive Design"],
+    url: "https://prpowerinfra.com",
+  },
+  {
+    title: "St. Joseph's Church Website",
+    category: "Client Project",
+    description:
+      "A full-stack church management web application with event scheduling, a media gallery, role-based administration and a responsive, mobile-first interface.",
     url: "https://stjosephskamplar.org/",
-    tags: ["React", "Node.js", "Responsive Design", "Deployment"],
+    tags: ["React", "Bootstrap", "Node.js", "Express.js", "MongoDB"],
+    note: "Supports 250+ active users.",
   },
 ];
 

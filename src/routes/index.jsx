@@ -4,11 +4,11 @@ import { ArrowRight, BadgeCheck, Check, Code2, ExternalLink, GraduationCap, Rock
 import Brand from "../components/Brand";
 import Button from "../components/Button";
 import MediaPlaceholder from "../components/MediaPlaceholder";
+import CourseRail from "../components/CourseRail";
 import ProjectVisual from "../components/ProjectVisual";
 import Icon from "../components/icons";
 import { Section, SectionHeading } from "../components/Section";
-import TechnologyBadge from "../components/TechnologyBadge";
-import { company, courses, services, trustPoints, whyNexbyta, learningProcess, techStack, deliveredWork } from "../data/site";
+import { company, courses, services, trustPoints, whyNexbyta, learningProcess, deliveredWork } from "../data/site";
 import { siteImages } from "../data/siteImages";
 
 export const Route = createFileRoute("/")({
@@ -83,7 +83,7 @@ function HomePage() {
 
       <Section tone="light">
         <div className="grid items-center gap-10 lg:grid-cols-[1fr_0.9fr] lg:gap-20">
-          <MediaPlaceholder src={siteImages.about} alt="Nexbyta technology training and development team" className="aspect-4/3 rounded-3xl border border-border shadow-(--shadow-card)" />
+          <MediaPlaceholder src={siteImages.why} alt="Nexbyta learners building technology projects with modern tools" objectFit="contain" className="aspect-square rounded-3xl border border-border bg-white shadow-(--shadow-card)" />
           <div>
             <p className="text-xs font-semibold tracking-[0.22em] text-primary uppercase">A practical point of view</p>
             <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">Technology should create momentum.</h2>
@@ -100,12 +100,7 @@ function HomePage() {
           title="Build the skills companies want to see"
           subtitle="From beginner foundations to job-ready software practice, Nexbyta blends technical depth with real-world application."
         />
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {featuredCourses.map((course, index) => <article key={course.slug} className={`group flex flex-col overflow-hidden border border-border bg-surface-light shadow-(--shadow-card) transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-(--shadow-elevated) ${index === 0 ? "rounded-3xl md:col-span-2 lg:col-span-2" : "rounded-2xl"}`}>
-            <MediaPlaceholder src={courseImages[index]} alt={`${course.title} learning track`} className={`${index === 0 ? "aspect-[2.4/1]" : "aspect-[1.7/1]"}`} />
-            <div className="flex flex-1 flex-col p-5 sm:p-6"><p className="text-xs font-semibold tracking-[0.18em] text-primary uppercase">{course.level}</p><h3 className="mt-2 text-xl font-semibold text-foreground">{course.title}</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">{course.shortDescription}</p><ul className="mt-4 flex flex-wrap gap-2">{course.tags.slice(0, 4).map((tag) => <li key={tag} className="rounded-md bg-surface-soft px-2 py-1 text-xs text-foreground">{tag}</li>)}</ul><Link to="/courses/$slug" params={{ slug: course.slug }} className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary">Explore track <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" /></Link></div>
-          </article>)}
-        </div>
+        <CourseRail courses={featuredCourses} images={courseImages} />
         <Button to="/courses" variant="outline" className="mt-8">View all courses</Button>
       </Section>
 
@@ -135,11 +130,6 @@ function HomePage() {
       <Section tone="light">
         <SectionHeading eyebrow="Our process" title="A clear path from idea to momentum" subtitle="Whether you're preparing for a career or launching a digital product, our process keeps work practical, structured, and transparent." />
         <ol className="relative grid gap-8 md:grid-cols-5 md:gap-4">{learningProcess.map((step, index) => <li key={step.step} className="relative border-l-2 border-primary/25 pl-5 md:border-l-0 md:border-t-2 md:pt-5 md:pl-0"><span className="font-mono text-sm font-semibold text-primary">{step.step}</span><h3 className="mt-2 text-lg font-semibold text-foreground">{step.title}</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.description}</p>{index < learningProcess.length - 1 && <span className="absolute -bottom-5 -left-1.75 size-3 rounded-full border-2 border-surface-light bg-primary md:bottom-auto md:left-auto md:-right-1.75 md:-top-1.75" aria-hidden="true" />}</li>)}</ol>
-      </Section>
-
-      <Section tone="soft">
-        <SectionHeading eyebrow="Technology ecosystem" title="The tools behind the work" subtitle="Technologies Nexbyta teaches and uses across practical learning and digital product development." align="center" />
-        <div className="mx-auto flex max-w-4xl flex-wrap justify-center gap-3">{techStack.flatMap((group) => group.items).map((item) => <TechnologyBadge key={item} label={item} />)}</div>
       </Section>
 
       <Section tone="light">

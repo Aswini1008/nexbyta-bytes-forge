@@ -5,6 +5,15 @@ import Brand from "./Brand";
 import Button from "./Button";
 import { navLinks } from "../data/site";
 
+const desktopLinkClass =
+  "relative rounded-lg border-b-2 border-transparent px-3 py-2 text-sm font-medium text-shell-muted transition-colors hover:bg-shell-elevated hover:text-cyan focus-visible:bg-shell-elevated";
+const desktopActiveLinkClass =
+  "relative rounded-lg border-b-2 border-cyan bg-cyan/10 px-3 py-2 text-sm font-semibold text-cyan transition-colors";
+const mobileLinkClass =
+  "flex min-h-11 w-full items-center rounded-lg border-b border-shell-border/70 px-3 py-3 text-base font-medium text-shell-foreground transition-colors hover:bg-shell-elevated hover:text-cyan focus-visible:bg-shell-elevated";
+const mobileActiveLinkClass =
+  "flex min-h-11 w-full items-center rounded-lg border-b border-cyan/50 bg-cyan/10 px-3 py-3 text-base font-semibold text-cyan transition-colors";
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -20,6 +29,24 @@ export default function Navbar() {
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
+
+  // Lock body scroll + allow Escape to close while the mobile menu is open
+  useEffect(() => {
+    if (!open) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open]);
 
   return (
     <header
@@ -39,8 +66,11 @@ export default function Navbar() {
               <Link
                 to={link.to}
                 activeOptions={{ exact: link.to === "/" }}
-                activeProps={{ className: "bg-shell-elevated text-shell-foreground" }}
-                className="rounded-lg px-3 py-2 text-sm font-medium text-shell-muted transition-colors hover:bg-shell-elevated hover:text-shell-foreground"
+                activeProps={{
+                  className: desktopActiveLinkClass,
+                  "aria-current": "page",
+                }}
+                className={desktopLinkClass}
               >
                 {link.label}
               </Link>
@@ -68,26 +98,35 @@ export default function Navbar() {
 
       <div
         id="mobile-menu"
-        hidden={!open}
-        className="w-full max-w-full overflow-x-hidden border-t border-shell-border bg-shell px-5 pb-6 text-shell-foreground shadow-[0_16px_32px_-24px_rgba(2,6,23,0.9)] sm:px-8 lg:hidden"
+        aria-hidden={!open}
+        inert={!open}
+        className={`w-full max-w-full overflow-hidden border-t border-shell-border bg-shell text-shell-foreground shadow-[0_16px_32px_-24px_rgba(2,6,23,0.9)] transition-[max-height,opacity] duration-300 ease-in-out lg:hidden ${
+          open ? "max-h-112 opacity-100" : "max-h-0 opacity-0"
+        }`}
       >
-        <ul className="flex flex-col py-1">
-          {navLinks.map((link) => (
-            <li key={link.to}>
-              <Link
-                to={link.to}
-                activeOptions={{ exact: link.to === "/" }}
-                activeProps={{ className: "text-cyan" }}
-                className="flex min-h-11 w-full items-center rounded-lg border-b border-shell-border/70 px-1 py-3 text-base font-medium text-shell-foreground transition-colors hover:text-cyan"
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <Button to="/enquiry" variant="accent" className="mt-5 w-full justify-center">
-          Get Started
-        </Button>
+        <div className="px-5 pb-6 sm:px-8">
+          <ul className="flex flex-col py-1">
+            {navLinks.map((link) => (
+              <li key={link.to}>
+                <Link
+                  to={link.to}
+                  activeOptions={{ exact: link.to === "/" }}
+                  activeProps={{
+                    className: mobileActiveLinkClass,
+                    "aria-current": "page",
+                  }}
+                  className={mobileLinkClass}
+                  onClick={() => setOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <Button to="/enquiry" variant="accent" className="mt-5 w-full justify-center">
+            Get Started
+          </Button>
+        </div>
       </div>
     </header>
   );

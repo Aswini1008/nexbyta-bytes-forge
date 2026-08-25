@@ -26,7 +26,7 @@ function AuthPage() {
   const [loading, setLoading] = useState(false);
 
   const field =
-    "w-full rounded-xl border border-border bg-[var(--card)] px-4 py-3 text-sm outline-none focus:border-cyan";
+    "w-full rounded-xl border border-border bg-card px-4 py-3 text-sm outline-none focus:border-cyan";
 
   async function onSubmit(event) {
     event.preventDefault();

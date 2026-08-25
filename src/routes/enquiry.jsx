@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import EnquiryForm from "../components/EnquiryForm";
+import Reveal from "../components/Reveal";
 import { Section, SectionHeading } from "../components/Section";
 import { submitEnquiry } from "../lib/enquiry.functions";
 import { company, interestOptions } from "../data/site";
@@ -37,9 +38,11 @@ function EnquiryPage() {
         subtitle={`Whether it is a course track or a project, share your details and our team in ${company.city} will follow up.`}
       />
 
-      <div className="mx-auto max-w-3xl card-glass rounded-2xl p-6 sm:p-8">
-        <EnquiryForm submitFn={submitEnquiry} defaultInterest={interest} />
-      </div>
+      <Reveal>
+        <div className="mx-auto max-w-3xl card-glass rounded-2xl p-6 sm:p-8">
+          <EnquiryForm submitFn={submitEnquiry} defaultInterest={interest} />
+        </div>
+      </Reveal>
     </Section>
   );
 }

@@ -5,7 +5,7 @@ export default function FAQAccordion({ items }) {
   const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <div className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-surface-light shadow-[var(--shadow-card)]">
+    <div className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-surface-light shadow-(--shadow-card)">
       {items.map((item, index) => {
         const open = openIndex === index;
         return (

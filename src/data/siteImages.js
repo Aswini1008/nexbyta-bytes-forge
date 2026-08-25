@@ -2,7 +2,7 @@
 export const siteImages = {
   hero: "/images/hero/nexbyta-hero.jpeg",
   about: "/images/about/nexbyta-team.jpg",
-  why: "/images/about/nexbyta-learning.jpg",
+  why: "/images/about/nexbyta-learning.png",
   courses: {
     java: "/images/courses/java.jpg",
     python: "/images/courses/python.jpg",

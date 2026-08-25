@@ -1,7 +1,9 @@
 import { Link } from "@tanstack/react-router";
-import { MapPin, Phone } from "lucide-react";
+import { MapPin, Phone, Mail } from "lucide-react";
 import Brand from "./Brand";
 import { company, courses, navLinks } from "../data/site";
+
+const currentYear = new Date().getFullYear();
 
 export default function Footer() {
   return (
@@ -30,7 +32,7 @@ export default function Footer() {
         <nav aria-label="Courses" className="min-w-0">
           <h2 className="text-sm font-semibold tracking-wide text-shell-foreground">Courses</h2>
           <ul className="mt-4 space-y-2 text-sm text-shell-muted">
-            {courses.map((course) => (
+            {courses?.map((course) => (
               <li key={course.slug}>
                 <Link
                   to="/courses/$slug"
@@ -57,12 +59,24 @@ export default function Footer() {
                 {company.phone}
               </a>
             </li>
+            {company.email && (
+              <li className="flex items-start gap-2">
+                <Mail className="mt-0.5 size-4 shrink-0 text-cyan" aria-hidden="true" />
+                <a href={`mailto:${company.email}`} className="transition-colors hover:text-cyan">
+                  {company.email}
+                </a>
+              </li>
+            )}
           </ul>
         </div>
       </div>
 
-      <div className="border-t border-shell-border px-5 py-6 text-center text-xs text-shell-muted sm:px-8">
-        © 2026 {company.name}. All rights reserved.
+      <div className="flex flex-col items-center gap-2 border-t border-shell-border px-5 py-6 text-center text-xs text-shell-muted sm:flex-row sm:justify-between sm:px-8">
+        <span>© {currentYear} {company.name}. All rights reserved.</span>
+        <div className="flex gap-4">
+          <Link to="/privacy" className="transition-colors hover:text-cyan">Privacy Policy</Link>
+          <Link to="/terms" className="transition-colors hover:text-cyan">Terms</Link>
+        </div>
       </div>
     </footer>
   );
